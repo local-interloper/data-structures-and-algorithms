@@ -1,2 +1,5 @@
 # We exclude the built binaries
 */build
+
+# No need for this either
+.vscode
