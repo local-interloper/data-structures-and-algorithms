@@ -40,7 +40,7 @@ int presjek(int *skup_a, int *skup_b, size_t size) {
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			if (skup_a[i] == skup_b[j] && i != j)
+			if (skup_a[i] == skup_b[j])
 			{
 				count++;
 			}
@@ -159,7 +159,7 @@ void test(char *algo_name, int count, int (*algo_ptr)(int*, int*, int))
 }
 
 void main() {
-	int count = 100000;
+	int count = 10000;
 
 	test("presjek", count, &presjek);
 	test("presjek_jedan_sortiran", count, &presjek_jedan_sortiran);
