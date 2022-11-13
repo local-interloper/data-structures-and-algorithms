@@ -135,7 +135,7 @@ void object_to_binary(Object3D *obj, char *path)
 
 void object_to_stl(Object3D *obj, char *solidName, char *path)
 {
-    FILE *fp = fopen(path, "wb");
+    FILE *fp = fopen(path, "w");
 
     fprintf(fp, "solid %s\n", solidName);
 
