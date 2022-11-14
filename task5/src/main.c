@@ -2,6 +2,10 @@
 #include <ctype.h>
 #include "dictionary.h"
 
+int cmp(Word *word){
+	return (word->count > 5 && word->count < 10) || strlen(word->word) > 3;
+}
+
 /*
 int readWord(FILE *fd, char *buffer)
 {
@@ -25,41 +29,44 @@ int readWord(FILE *fd, char *buffer)
 	return 1;
 }
 
+
+
 void main()
 {
 	FILE *fd;
 	char buffer[1024];
 	Dictionary dict;
 				
-	fd = fopen("liar.txt", "rt");
+	fd = fopen("../data/liar.txt", "rt");
 	if(fd == NULL)
 	{
 		printf("Error opening file.\n");
 		return;
 	}
 
-	//dict = create();
+	dict = create();
 	while(readWord(fd, buffer))
 	{
 		printf("%s\n", buffer);
-		//add(dict, buffer);
+		add(dict, buffer);
 	}
 
 	fclose(fd);
 
-	//print(dict);
+	// print(dict);
 
-	//destroy(dict);
+	// destroy(dict);
 }
+
 */
-
-int cmp(Word *word){
-	return strlen(word->word) != 3;
-}
 
 int main() {
 	Dictionary dict = create();
 
+	add(&dict, "the");
+	add(&dict, "the");
+	add(&dict, "the");
+	add(&dict, "the");
 	add(&dict, "the");
 	add(&dict, "quick");
 	add(&dict, "brown");
@@ -71,8 +78,8 @@ int main() {
 	add(&dict, "dog");
 
 	print(dict);
-	printf("~~~~~~~~~~~~~~~~~~~\n");
 	Dictionary dict_f = filterDictionary(dict, &cmp);
+
 	printf("~~~~~~~~~~~~~~~~~~~\n");
 	print(dict_f);
 
