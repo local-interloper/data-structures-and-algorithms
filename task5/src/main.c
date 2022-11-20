@@ -7,28 +7,27 @@ int cmp(Word *word){
 }
 
 /*
-int readWord(FILE *fd, char *buffer)
+int readWord(FILE* fd, char* buffer)
 {
 	int c;
-	
+
 	do {
-		c = fgetc(fd);				
-		if(c == EOF)
+		c = fgetc(fd);
+		if (c == EOF)
 			return 0;
-	} while(!isalpha(c));
+	} while (!isalpha(c));
 
 	do {
 		*buffer = tolower(c);
 		buffer++;
 		c = fgetc(fd);
-		if(c == 146)
+		if (c == 146)
 			c = '\'';
-	} while(isalpha(c) || c == '\'');
+	} while (isalpha(c) || c == '\'');
 
 	*buffer = '\0';
 	return 1;
 }
-
 
 
 void main()
@@ -53,11 +52,8 @@ void main()
 
 	fclose(fd);
 
-	// print(dict);
-
-	// destroy(dict);
+	print(dict);
 }
-
 */
 
 int main() {
@@ -88,3 +84,4 @@ int main() {
 
 	return 0;
 }
+

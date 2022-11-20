@@ -2,7 +2,12 @@
 
 Dictionary create()
 {
-    return NULL;
+    Dictionary dict = (Dictionary)malloc(sizeof(Dictionary));
+    dict->count = 0;
+    dict->word = "";
+    dict->next = NULL;
+
+    return dict;
 }
 
 void add(Dictionary *dict, char *str)
@@ -13,15 +18,16 @@ void add(Dictionary *dict, char *str)
     new_word->count = 1;
     new_word->next = NULL;
 
-    if (*dict == NULL)
+    // First check
+    Word *current = *dict;
+
+    if (current->count == 0)
     {
         *dict = new_word;
         return;
     }
 
-    Word *current = *dict;
 
-    // First check
     if (strcmp(str, current->word) < 0)
     {
         new_word->next = *dict;
