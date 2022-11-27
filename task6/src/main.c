@@ -13,6 +13,10 @@ typedef struct
 	void *data;
 } Node;
 
+Node *create_priority_queue() {
+	return (Node *)calloc(N, sizeof(Node));
+}
+
 void print_node(Node *node)
 {
 	printf("{%d}", node->priority);
@@ -97,7 +101,8 @@ int delete(Node *nodes, int* p_size)
 
 int main()
 {
-	Node *nodes[N];
+	// Node *nodes[N];
+	Node *nodes = create_priority_queue();
 	int size = 0;
 
 	add(nodes, &size, 50);
