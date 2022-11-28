@@ -70,7 +70,6 @@ void fix_tree_iter(Node *nodes, size_t count)
 			if (nodes[parent_index].priority < nodes[index].priority)
 			{
 				swap_nodes(nodes, parent_index, index);
-				fix_tree(nodes, parent_index);
 			}
 		}
 	}
@@ -121,13 +120,13 @@ void fix_tree_rev_iter(Node *nodes, size_t count)
 
 			if (l >= count && index >= count)
 			{
-				return;
+				continue;
 			}
 
 			if (index >= count && l < count && nodes[l].priority > nodes[index].priority)
 			{
 				swap_nodes(nodes, index, l);
-				return;
+				continue;
 			}
 
 			if (nodes[index].priority < nodes[l].priority && nodes[index].priority < nodes[d].priority)
@@ -135,14 +134,12 @@ void fix_tree_rev_iter(Node *nodes, size_t count)
 				if (nodes[l].priority > nodes[d].priority)
 				{
 					swap_nodes(nodes, index, l);
-					fix_tree_rev(nodes, l, count);
-					return;
+					continue;
 				}
 				else
 				{
 					swap_nodes(nodes, index, d);
-					fix_tree_rev(nodes, d, count);
-					return;
+					continue;
 				}
 			}
 		}
