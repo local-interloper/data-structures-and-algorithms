@@ -92,7 +92,7 @@ void fix_tree_rev(Node *nodes, int index, int size)
 		return;
 	}
 
-	if (nodes[index].priority < nodes[l].priority && nodes[index].priority < nodes[d].priority)
+	if (nodes[index].priority < nodes[l].priority || nodes[index].priority < nodes[d].priority)
 	{
 		if (nodes[l].priority > nodes[d].priority)
 		{
@@ -107,6 +107,7 @@ void fix_tree_rev(Node *nodes, int index, int size)
 			return;
 		}
 	}
+
 }
 
 void fix_tree_rev_iter(Node *nodes, size_t count)
@@ -129,7 +130,7 @@ void fix_tree_rev_iter(Node *nodes, size_t count)
 				continue;
 			}
 
-			if (nodes[index].priority < nodes[l].priority && nodes[index].priority < nodes[d].priority)
+			if (nodes[index].priority < nodes[l].priority || nodes[index].priority < nodes[d].priority)
 			{
 				if (nodes[l].priority > nodes[d].priority)
 				{
@@ -187,10 +188,6 @@ int main()
 	add(&queue, 23);
 	add(&queue, 10);
 	print_nodes(&queue);
-	delete (&queue);
-	delete (&queue);
-	delete (&queue);
-	delete (&queue);
 	delete (&queue);
 	delete (&queue);
 	delete (&queue);
