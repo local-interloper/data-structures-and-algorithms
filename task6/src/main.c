@@ -13,8 +13,18 @@ typedef struct
 	void *data;
 } Node;
 
-Node *create_priority_queue() {
-	return (Node *)calloc(N, sizeof(Node));
+typedef struct {
+	Node *nodes;
+	size_t count;
+} PriortiyQueue;
+
+PriortiyQueue new_priority_queue() {
+	PriortiyQueue queue = {
+		.nodes = (Node *)calloc(N, sizeof(Node)),
+		.count = 0
+	};
+
+	return queue;
 }
 
 void print_node(Node *node)
@@ -22,9 +32,10 @@ void print_node(Node *node)
 	printf("{%d}", node->priority);
 }
 
-void print_nodes(Node *nodes, size_t length)
+void print_nodes(PriortiyQueue *queue)
 {
-	for (int i = 0; i < length; i++)
+	Node *nodes = queue->nodes;
+	for (int i = 0; i < queue->count; i++)
 	{
 		print_node(nodes + i);
 	}
@@ -48,83 +59,88 @@ void fix_tree(Node *nodes, int index)
 	}
 }
 
-void fix_tree_rev(Node *nodes, int r, int size)
+void fix_tree_rev(Node *nodes, int index, int size)
 {
 
-	int l = LEFT_CHILD(r);
-	int d = RIGHT_CHILD(r);
+	int l = LEFT_CHILD(index);
+	int d = RIGHT_CHILD(index);
 
-    if (l >= size && r >= size)
+    if (l >= size && index >= size)
     {
         return;
     }
 
-    if (r >= size && l < size && nodes[l].priority > nodes[r].priority)
+    if (index >= size && l < size && nodes[l].priority > nodes[index].priority)
     {
-		swap_nodes(nodes, r, l);
+		swap_nodes(nodes, index, l);
 		return;
     }
 
-    if (nodes[r].priority < nodes[l].priority && nodes[r].priority < nodes[d].priority)
+    if (nodes[index].priority < nodes[l].priority && nodes[index].priority < nodes[d].priority)
     {
         if (nodes[l].priority > nodes[d].priority)
         {
-			swap_nodes(nodes, r, l);
+			swap_nodes(nodes, index, l);
             fix_tree_rev(nodes, l, size);
 			return;
         }
         else
         {
-			swap_nodes(nodes, r, d);
+			swap_nodes(nodes, index, d);
             fix_tree_rev(nodes, d, size);
 			return;
         }
     }
 }
 
-void add(Node *nodes, int *p_size, int value)
+void add(PriortiyQueue *queue, int value)
 {
-	int size = *p_size;
-	nodes[size].priority = value;
-	fix_tree(nodes, size);
-	(*p_size)++;
+	Node* nodes = queue->nodes;
+	nodes[queue->count].priority = value;
+
+	fix_tree(nodes, queue->count);
+
+	queue->count++;
 }
 
-int delete(Node *nodes, int* p_size)
+int delete(PriortiyQueue *queue)
 {
-	int size = *p_size;
+	Node* nodes = queue->nodes;
+	int size = queue->count;
+
     nodes[0].priority = nodes[size - 1].priority;
     nodes[size - 1].priority = 0;
+
     fix_tree_rev(nodes, 0, size);
-	(*p_size)--;
+
+	queue->count--;
 }
 
 int main()
 {
 	// Node *nodes[N];
-	Node *nodes = create_priority_queue();
-	int size = 0;
+	PriortiyQueue queue = new_priority_queue();
 
-	add(nodes, &size, 50);
-	add(nodes, &size, 20);
-	add(nodes, &size, 80);
-	add(nodes, &size, 85);
-	add(nodes, &size, 60);
-	add(nodes, &size, 25);
-	add(nodes, &size, 30);
-	add(nodes, &size, 70);
-	add(nodes, &size, 23);
-	add(nodes, &size, 10);
-	print_nodes(nodes, size);
-	delete(nodes, &size);
-	delete(nodes, &size);
-	delete(nodes, &size);
-	delete(nodes, &size);
-	delete(nodes, &size);
-	delete(nodes, &size);
-	delete(nodes, &size);
-	delete(nodes, &size);
-	print_nodes(nodes, size);
+	add(&queue, 50);
+	add(&queue, 20);
+	add(&queue, 80);
+	add(&queue, 85);
+	add(&queue, 60);
+	add(&queue, 25);
+	add(&queue, 30);
+	add(&queue, 70);
+	add(&queue, 23);
+	add(&queue, 10);
+	print_nodes(&queue);
+	delete(&queue);
+	delete(&queue);
+	delete(&queue);
+	delete(&queue);
+	delete(&queue);
+	delete(&queue);
+	delete(&queue);
+	delete(&queue);
+	print_nodes(&queue);
 
 	return 0;
 }
