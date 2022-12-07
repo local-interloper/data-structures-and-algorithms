@@ -19,7 +19,7 @@ Dictionary create();
 // dodaje rijec ili uvecava broj pojavljivanja rijeci u rjecniku
 // rijeci se dodaju u abecednom redu
 // void add(Dictionary dict, char *str);
-void add(Dictionary *dict, char *str);
+void add(Dictionary dict, char *str);
 
 // ispisuje sve rijeci i broj pojavljivanja svake rijeci
 void print(Dictionary dict);

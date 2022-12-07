@@ -4,67 +4,70 @@ Dictionary create()
 {
     Dictionary dict = (Dictionary)malloc(sizeof(Dictionary));
     dict->count = 0;
-    dict->word = "";
+    dict->word = NULL;
     dict->next = NULL;
 
     return dict;
 }
 
-void add(Dictionary *dict, char *str)
+void add(Dictionary dict, char *str)
 {
+    Word *head = ((Word *)dict)->next;
 
-    Word *new_word = (Word *)malloc(sizeof(Word));
-    new_word->word = str;
-    new_word->count = 1;
+    // Check if head is NULL
+    if (head == NULL)
+    {
+        Word *new_word = (Word *)calloc(1, sizeof(Word));
+        new_word->word = (char *)malloc(sizeof(char) * (strlen(str) + 1));
+        strcpy(new_word->word, str);
+        new_word->next = NULL;
+        new_word->count = 1;
+        ((Word *)dict)->next = new_word;
+        return;
+    }
+
+    Word *ptr = head;
+
+    // Check for dupes
+    while (ptr->next != NULL)
+    {
+        if (strcmp(ptr->word, str) == 0)
+        {
+            ptr->count++;
+            return;
+        }
+
+        ptr = ptr->next;
+    }
+
+    // Now we add the new word
+    ptr = (Word *)dict;
+
+    Word *new_word = (Word *)calloc(1, sizeof(Word));
+    new_word->word = (char *)malloc(sizeof(char) * (strlen(str) + 1));
+    strcpy(new_word->word, str);
     new_word->next = NULL;
+    new_word->count = 1;
 
-    // First check
-    Word *current = *dict;
-
-    if (current->count == 0)
+    while (ptr->next != NULL)
     {
-        *dict = new_word;
-        return;
-    }
-
-
-    if (strcmp(str, current->word) < 0)
-    {
-        new_word->next = *dict;
-        *dict = new_word;
-        return;
-    }
-    else if (strcmp(str, current->word) == 0)
-    {
-        current->count++;
-        return;
-    }
-
-    while (current->next != NULL)
-    {
-        int result = strcmp(str, current->next->word);
-        if (result < 0)
+        if (strcmp(ptr->next->word, str) > 0)
         {
-            new_word->next = current->next;
-            current->next = new_word;
+            Word *tmp = ptr->next;
+            ptr->next = new_word;
+            new_word->next = tmp;
             return;
         }
 
-        if (result == 0)
-        {
-            current->next->count++;
-            return;
-        }
-
-        current = current->next;
+        ptr = ptr->next;
     }
 
-    current->next = new_word;
+    ptr->next = new_word;
 }
 
 void print(Dictionary dict)
 {
-    Word *current = dict;
+    Word *current = dict->next;
 
     while (current != NULL)
     {
@@ -90,15 +93,18 @@ void destroy(Dictionary dict)
 Dictionary filterDictionary(Dictionary indict, int (*filter)(Word *w))
 {
 
-    Dictionary n_dict = create();
-    Word *current = indict;
+    Dictionary new_dict = create();
+    Word *last = (Word *)new_dict;
+
+    Word *current = ((Word *)indict)->next;
     for (;;)
     {
         int result = filter(current);
 
         if (result == 1)
         {
-            add(&n_dict, current->word);
+            last->next = current;
+            last = last->next;
         }
 
         if (current->next == NULL)
@@ -108,8 +114,11 @@ Dictionary filterDictionary(Dictionary indict, int (*filter)(Word *w))
 
         Word *tmp = current;
         current = current->next;
-        free(tmp);
+        if (result != 1)
+        {
+            free(tmp);
+        }
     }
 
-    return n_dict;
+    return new_dict;
 }

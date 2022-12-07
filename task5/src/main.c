@@ -6,7 +6,6 @@ int cmp(Word *word){
 	return (word->count > 5 && word->count < 10) || strlen(word->word) > 3;
 }
 
-/*
 int readWord(FILE* fd, char* buffer)
 {
 	int c;
@@ -46,42 +45,18 @@ void main()
 	dict = create();
 	while(readWord(fd, buffer))
 	{
-		printf("%s\n", buffer);
+		// printf("%s\n", buffer);
 		add(dict, buffer);
 	}
 
 	fclose(fd);
 
-	print(dict);
-}
-*/
-
-int main() {
-	Dictionary dict = create();
-
-	add(&dict, "the");
-	add(&dict, "the");
-	add(&dict, "the");
-	add(&dict, "the");
-	add(&dict, "the");
-	add(&dict, "quick");
-	add(&dict, "brown");
-	add(&dict, "fox");
-	add(&dict, "jumps");
-	add(&dict, "over");
-	add(&dict, "the");
-	add(&dict, "lazy");
-	add(&dict, "dog");
+	Dictionary d = filterDictionary(dict, cmp);
 
 	print(dict);
-	Dictionary dict_f = filterDictionary(dict, &cmp);
+	printf("~~~~~~~~~~\n");
+	print(d);
 
-	printf("~~~~~~~~~~~~~~~~~~~\n");
-	print(dict_f);
-
-
-	// printf("%d\n", strcmp("Ceca", "Ana"));
-
-	return 0;
+	destroy(d);
 }
 
