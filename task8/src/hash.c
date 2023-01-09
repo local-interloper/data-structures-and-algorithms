@@ -33,6 +33,8 @@ void Insert(HashTable *ht, char *word)
 	Bin *new_bin = (Bin *)calloc(1, sizeof(Bin));
 
 	new_bin->word = (char *)malloc(sizeof(char) * strlen(word) + 1);
+	strcpy(new_bin->word, word);
+
 	new_bin->next = ht->table[pos];
 
 	ht->table[pos] = new_bin;
@@ -42,16 +44,16 @@ void Insert(HashTable *ht, char *word)
 int Get(HashTable *ht, char *word)
 {
 	unsigned int pos = hash(word) % ht->size;
-	Bin *myBin = ht->table[pos];
+	Bin *bin = ht->table[pos];
 
-	while (myBin != NULL)
+	while (bin != NULL)
 	{
-		if (strcmp(word, myBin->word) == 0)
+		if (strcmp(word, bin->word) == 0)
 		{
 			return 1;
 		}
 
-		myBin = myBin->next;
+		bin = bin->next;
 	}
 
 	return 0;
@@ -61,16 +63,16 @@ void DeleteTable(HashTable *ht)
 {
 	for (int i = 0; i < ht->size; i++)
 	{
-		Bin *myBin = ht->table[i];
+		Bin *bin = ht->table[i];
 
-		while (myBin != NULL)
+		while (bin != NULL)
 		{
-			Bin *nextBin = myBin->next;
+			Bin *next_bin = bin->next;
 
-			free(myBin->word);
-			free(myBin);
+			free(bin->word);
+			free(bin);
 
-			myBin = nextBin;
+			bin = next_bin;
 		}
 	}
 
