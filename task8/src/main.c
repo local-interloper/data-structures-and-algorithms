@@ -48,20 +48,19 @@ void fillTable(HashTable *dict)
 	fclose(fd);
 }
 
-int main()
+void main()
 {
-	for(int size = (1<<17); size < (1<<18); size *= 2)
+	int i, size;
+	HashTable *dict;
+
+	for(size = (1<<8); size < (1<<18); size *= 2)
 	{
-		HashTable *table = NewTable(size);
-
-		float start_time = clock();
-		fillTable(table);
-		float delta = clock() - start_time;
-
-		printf("Size = %d, load factor = %f, time = %f\n", table->size, (float)table->load / table->size, (delta)/CLOCKS_PER_SEC);
-
-		DeleteTable(table);
+		float st, et;
+		dict = NewTable(size);
+		st = clock();
+		fillTable(dict);
+		et = clock();
+		printf("Size = %d, load factor = %f, time = %f\n", dict->size, (float)dict->load / dict->size, (et-st)/CLOCKS_PER_SEC);
+		DeleteTable(dict);
 	}
-
-	return 0;
 }
