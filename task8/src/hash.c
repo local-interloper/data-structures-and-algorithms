@@ -5,6 +5,7 @@
 
 #define HCONST 3567892
 
+// kreira novu hash tablicu (alocira samu strukturu i niz pokazivac
 HashTable *NewTable(int size)
 {
 	HashTable *out = (HashTable *)calloc(1, sizeof(HashTable));
@@ -15,6 +16,7 @@ HashTable *NewTable(int size)
 	return out;
 }
 
+// od kljuca generira hash kod
 unsigned int hash(char *word)
 {
 	unsigned int key = 0;
@@ -26,6 +28,7 @@ unsigned int hash(char *word)
 	return key;
 }
 
+// dodaje novu rijec u listu na odgovarajucem pretincu
 void Insert(HashTable *ht, char *word)
 {
 	unsigned int pos = hash(word) % ht->size;
@@ -41,6 +44,7 @@ void Insert(HashTable *ht, char *word)
 	ht->load++;
 }
 
+// vraca 0 ili 1 ovisno o tome da li rijec postoji u tablici
 int Get(HashTable *ht, char *word)
 {
 	unsigned int pos = hash(word) % ht->size;
@@ -59,6 +63,7 @@ int Get(HashTable *ht, char *word)
 	return 0;
 }
 
+// brise cijelu hash tablicu (liste na svim pretincima (rijec i element liste), pretince ...)
 void DeleteTable(HashTable *ht)
 {
 	for (int i = 0; i < ht->size; i++)

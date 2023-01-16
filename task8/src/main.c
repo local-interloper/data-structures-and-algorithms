@@ -31,7 +31,7 @@ void fillTable(HashTable *dict)
 	FILE *fd;
 	char buffer[1024];
 				
-	fd = fopen("data/liar.txt", "rt");
+	fd = fopen("../data/liar.txt", "rt");
 	if(fd == NULL)
 	{
 		printf("Error opening file.\n");
