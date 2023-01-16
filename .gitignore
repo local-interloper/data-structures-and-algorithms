@@ -3,3 +3,6 @@
 
 # No need for this either
 .vscode
+
+# A sandbox folder for testing
+sbox
