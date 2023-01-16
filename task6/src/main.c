@@ -158,7 +158,7 @@ void add(PriortiyQueue *queue, int value)
 	queue->count++;
 }
 
-int delete (PriortiyQueue *queue)
+void delete (PriortiyQueue *queue)
 {
 	Node *nodes = queue->nodes;
 	int size = queue->count;
